@@ -2,7 +2,7 @@ from django.db import models
 
 class Company(models.Model):
     """
-    Representa la información de la Compañía
+        Representa una empresa (Organización)
     """
     name = models.CharField(
         "Nombre", 
@@ -19,6 +19,9 @@ class Company(models.Model):
         help_text="Descripción detallada de la organización"
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = "Organización"
         verbose_name_plural = "Organizaciones"
@@ -28,6 +31,3 @@ class Company(models.Model):
                 name='unique_company_name'
             )
         ]
-
-    def __str__(self):
-        return self.name
