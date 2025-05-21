@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -109,13 +111,14 @@ WSGI_APPLICATION = 'grouptag.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('railway'),
-        'USER': os.getenv('postgres'),
-        'PASSWORD': os.getenv('PhNwdAhycjvuICcTiteXGqgXxADngKbi'),
-        'HOST': os.getenv('postgres.railway.internal'),
-        'PORT': os.getenv('5432'),  
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'PhNwdAhycjvuICcTiteXGqgXxADngKbi',
+        'HOST': 'switchback.proxy.rlwy.net',
+        'PORT': '46967',
     }
 }
+
 
 
 # Password validation
