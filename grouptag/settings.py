@@ -108,8 +108,12 @@ WSGI_APPLICATION = 'grouptag.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('railway'),
+        'USER': os.getenv('postgres'),
+        'PASSWORD': os.getenv('PhNwdAhycjvuICcTiteXGqgXxADngKbi'),
+        'HOST': os.getenv('postgres.railway.internal'),
+        'PORT': os.getenv('5432'),  
     }
 }
 
