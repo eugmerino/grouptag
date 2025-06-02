@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,10 +30,12 @@ SECRET_KEY = 'django-insecure-i=*i1fv(soaile9d!g1xx!ewqwsfx=g@!8egutcb9!v_$=ntcg
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'grouptag.up.railway.app',
+    'localhost',
     '127.0.0.1',
+    'grouptag.up.railway.app',
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://grouptag.up.railway.app',]
 
 # Application definition
 
@@ -107,10 +111,15 @@ WSGI_APPLICATION = 'grouptag.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'WYBraQMOorEfIeXNeBIJuuzRKLGDeSKK',
+        'HOST': 'ballast.proxy.rlwy.net',
+        'PORT': '28032',
     }
 }
+
 
 
 # Password validation
@@ -137,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/El_Salvador'
 
 USE_I18N = True
 
