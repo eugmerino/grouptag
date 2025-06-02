@@ -114,9 +114,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'PhNwdAhycjvuICcTiteXGqgXxADngKbi',
-        'HOST': 'switchback.proxy.rlwy.net',
-        'PORT': '46967',
+        'PASSWORD': 'WYBraQMOorEfIeXNeBIJuuzRKLGDeSKK',
+        'HOST': 'ballast.proxy.rlwy.net',
+        'PORT': '28032',
     }
 }
 
@@ -146,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/El_Salvador'
 
 USE_I18N = True
 

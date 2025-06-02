@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from django.utils import timezone
 import datetime
 
 class Schedule(models.Model):
@@ -25,6 +26,7 @@ class Schedule(models.Model):
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.get_day_of_week_display()}: {self.start_time} a {self.end_time}"
 
+
 class Attendance(models.Model):
     ATTENDANCE_TYPES = (
         ('check_in', 'Entrada'),
@@ -36,7 +38,6 @@ class Attendance(models.Model):
     time = models.TimeField(auto_now_add=True)
     type = models.CharField(max_length=10, choices=ATTENDANCE_TYPES)
     schedule = models.ForeignKey(Schedule, on_delete=models.SET_NULL, null=True, blank=True)
-    is_late = models.BooleanField(default=False)
     
     class Meta:
         unique_together = ('user', 'date', 'type')
@@ -46,19 +47,36 @@ class Attendance(models.Model):
         return f"{self.user.get_full_name()} - {self.date} {self.time} ({self.get_type_display()})"
     
     def save(self, *args, **kwargs):
-        # Determinar si es tarde comparando con el horario programado
-        if not self.pk and self.type == 'check_in':
-            today_weekday = self.date.weekday()
-            try:
-                schedule = Schedule.objects.get(
-                    user=self.user, 
-                    day_of_week=today_weekday,
-                    is_active=True
-                )
-                self.schedule = schedule
-                if self.time > schedule.start_time:
-                    self.is_late = True
-            except Schedule.DoesNotExist:
-                pass
+        # Obtener la fecha y hora actual
+        now = timezone.now()
+        self.date = now.date()
+        
+        # Obtener el día de la semana (0=Lunes, 6=Domingo)
+        day_of_week = now.weekday()
+        
+        # Buscar el horario correspondiente al usuario y día de la semana
+        try:
+            self.schedule = Schedule.objects.get(user=self.user, day_of_week=day_of_week)
+        except Schedule.DoesNotExist:
+            self.schedule = None
+        
+        # Verificar registros existentes para el usuario en la fecha actual
+        existing_attendances = Attendance.objects.filter(
+            user=self.user, 
+            date=self.date
+        ).order_by('time')
+        
+        # Determinar el tipo de registro
+        if existing_attendances.count() == 0:
+            # Primer registro del día: Entrada
+            self.type = 'check_in'
+        else:
+            # Segundo o posterior registro: Salida
+            self.type = 'check_out'
+            
+            # Si ya existe una salida, eliminarla antes de guardar la nueva
+            existing_checkouts = existing_attendances.filter(type='check_out')
+            if existing_checkouts.exists():
+                existing_checkouts.delete()
         
         super().save(*args, **kwargs)
