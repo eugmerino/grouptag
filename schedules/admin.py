@@ -3,8 +3,8 @@ from .models import Schedule, Attendance
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('user', 'day_of_week_display', 'start_time', 'end_time', 'is_active')
-    list_filter = ('day_of_week', 'is_active')
+    list_display = ('user', 'day_of_week_display', 'start_time', 'end_time')
+    list_filter = ('day_of_week')
     search_fields = ('user__email', 'user__first_name', 'user__last_name')
     ordering = ('user', 'day_of_week')
 
