@@ -17,7 +17,6 @@ class Schedule(models.Model):
     day_of_week = models.IntegerField("Día", choices=DAYS_OF_WEEK)
     start_time = models.TimeField("Hora de llegada")
     end_time = models.TimeField("Hora de salida")
-    is_active = models.BooleanField("Día hábil", default=True)
     
     class Meta:
         unique_together = ('user', 'day_of_week')

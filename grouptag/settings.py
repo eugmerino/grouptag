@@ -30,8 +30,9 @@ SECRET_KEY = 'django-insecure-i=*i1fv(soaile9d!g1xx!ewqwsfx=g@!8egutcb9!v_$=ntcg
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'grouptag.up.railway.app',
+    'localhost',
     '127.0.0.1',
+    'grouptag.up.railway.app',
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://grouptag.up.railway.app',]
