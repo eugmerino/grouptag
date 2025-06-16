@@ -28,3 +28,9 @@ class UserAdmin(admin.ModelAdmin):
         return "Sin QR"
 
     qr_code_display.short_description = "Código QR"
+
+    def save_model(self, request, obj, form, change):
+        # Si es un nuevo usuario o se está cambiando la contraseña
+        if not change or 'password' in form.changed_data:
+            obj.set_password(form.cleaned_data['password'])
+        super().save_model(request, obj, form, change)
