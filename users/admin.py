@@ -1,25 +1,9 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from django import forms
 from .models import User
-
-class UserCreationForm(forms.ModelForm):
-    password = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
-    
-    class Meta:
-        model = User
-        fields = ('email', 'password', 'first_name', 'last_name', 'phone', 'dui', 'company')
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    form = UserCreationForm
     list_display = ('email', 'first_name', 'last_name', 'company', 'phone', 'dui', 'is_active', 'is_admin', 'qr_code_display')
     list_filter = ('company', 'is_active', 'is_admin')
     search_fields = ('email', 'first_name', 'last_name', 'dui', 'phone')
@@ -31,7 +15,7 @@ class UserAdmin(admin.ModelAdmin):
             'fields': ('email', 'password', 'first_name', 'last_name', 'phone', 'dui', 'company')
         }),
         ("Permisos", {
-            'fields': ('is_active', 'is_admin', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
+            'fields': ('is_active', 'is_admin', 'is_staff', 'is_superuser')
         }),
         ("Código QR", {
             'fields': ('qr_code_display',)
