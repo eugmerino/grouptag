@@ -6,10 +6,7 @@ from django.utils import timezone
 from datetime import datetime
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def register_attendance(request):
-    print(f"Headers recibidos: {request.headers}")  # ← Debug
-    print(f"User auth: {request.user.is_authenticated}")
     dui = request.data.get('dui')
     registrar_user = request.user
     
