@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
 from datetime import datetime
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
