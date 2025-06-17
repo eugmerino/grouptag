@@ -3,11 +3,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, date, time
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from .models import Schedule, Attendance
-
+from django.db.models import Prefetch
 
 
 @api_view(['POST'])
@@ -88,6 +88,9 @@ def register_attendance(request):
 
 
 
+
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def employee_attendance_report(request):
@@ -106,23 +109,29 @@ def employee_attendance_report(request):
     else:
         target_date = timezone.now().date()
     
-    # Optimización: Prefetch relacionado y filtrado en DB
+    # Optimización de consultas con Prefetch
+    attendance_prefetch = Prefetch(
+        'attendances',
+        queryset=Attendance.objects.filter(date=target_date).order_by('time'),
+        to_attr='daily_attendances'
+    )
+    
     employees = User.objects.filter(
         company=company,
         is_active=True
     ).prefetch_related(
-        'attendances',
+        attendance_prefetch,
         'schedules'
     )
     
     report_data = []
     for employee in employees:
-        # Obtener asistencias del día en una sola consulta
-        attendances = employee.attendances.filter(date=target_date).order_by('time')
-        entry = next((a for a in attendances if a.type == 'check_in'), None)
-        exit_ = next((a for a in attendances if a.type == 'check_out'), None)
+        # Accedemos a las asistencias ya prefiltradas
+        daily_attendances = employee.daily_attendances
+        entry = next((a for a in daily_attendances if a.type == 'check_in'), None)
+        exit_ = next((a for a in daily_attendances if a.type == 'check_out'), None)
         
-        # Obtener horario para el día de la semana (0=lunes, 6=domingo)
+        # Buscamos el horario para el día de la semana
         schedule = next(
             (s for s in employee.schedules.all() if s.day_of_week == target_date.weekday()),
             None
@@ -137,17 +146,23 @@ def employee_attendance_report(request):
             'has_both_entries': entry and exit_ is not None
         })
     
-    return Response({'date': target_date.strftime("%Y-%m-%d"), 'employees': report_data})
+    return Response({
+        'date': target_date.strftime("%Y-%m-%d"),
+        'employees': report_data
+    })
 
 def calculate_punctuality(entry, schedule):
-    if not entry or not schedule:
+    if not entry or not schedule or not hasattr(schedule, 'start_time'):
         return "Sin horario"
     
-    entry_time = entry.time
-    scheduled_time = schedule.start_time
+    # Convertimos los time a datetime para poder restarlos
+    today = date.today()
+    entry_datetime = datetime.combine(today, entry.time)
+    scheduled_datetime = datetime.combine(today, schedule.start_time)
     
-    if entry_time <= scheduled_time:
+    if entry_datetime <= scheduled_datetime:
         return "A tiempo"
     else:
-        delay = entry_time - scheduled_time
-        return f"Tardanza: {delay.seconds // 60} min"
+        delay = entry_datetime - scheduled_datetime
+        delay_minutes = delay.total_seconds() // 60
+        return f"Tardanza: {int(delay_minutes)} min"
