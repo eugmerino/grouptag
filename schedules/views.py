@@ -111,14 +111,14 @@ def employee_attendance_report(request):
         company=company,
         is_active=True
     ).prefetch_related(
-        'attendance_set',
+        'attendances',
         'schedules'
     )
     
     report_data = []
     for employee in employees:
         # Obtener asistencias del día en una sola consulta
-        attendances = employee.attendance_set.filter(date=target_date).order_by('time')
+        attendances = employee.attendances.filter(date=target_date).order_by('time')
         entry = next((a for a in attendances if a.type == 'check_in'), None)
         exit_ = next((a for a in attendances if a.type == 'check_out'), None)
         
