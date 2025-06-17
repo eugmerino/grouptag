@@ -9,6 +9,7 @@ User = get_user_model()
 from .models import Schedule, Attendance
 
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def register_attendance(request):
@@ -90,39 +91,53 @@ def register_attendance(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def employee_attendance_report(request):
-    company = request.user.company  # Asume que el usuario tiene relación con Company
-    target_date = request.query_params.get('date', timezone.now().date())
+    company = request.user.company
     
+    # Manejo seguro de la fecha
+    date_str = request.query_params.get('date')
+    if date_str:
+        try:
+            target_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            return Response(
+                {"error": "Formato de fecha inválido. Use YYYY-MM-DD."},
+                status=400
+            )
+    else:
+        target_date = timezone.now().date()
+    
+    # Optimización: Prefetch relacionado y filtrado en DB
     employees = User.objects.filter(
         company=company,
         is_active=True
-    ).select_related('company')
+    ).prefetch_related(
+        'attendance_set',
+        'schedules'
+    )
     
     report_data = []
     for employee in employees:
-        attendances = Attendance.objects.filter(
-            user=employee,
-            date=target_date
-        ).order_by('time')
+        # Obtener asistencias del día en una sola consulta
+        attendances = employee.attendance_set.filter(date=target_date).order_by('time')
+        entry = next((a for a in attendances if a.type == 'check_in'), None)
+        exit_ = next((a for a in attendances if a.type == 'check_out'), None)
         
-        entry = attendances.filter(type='check_in').first()
-        exit = attendances.filter(type='check_out').first()
-        
-        schedule = Schedule.objects.filter(
-            user=employee,
-            day_of_week=target_date.weekday()
-        ).first()
+        # Obtener horario para el día de la semana (0=lunes, 6=domingo)
+        schedule = next(
+            (s for s in employee.schedules.all() if s.day_of_week == target_date.weekday()),
+            None
+        )
         
         report_data.append({
             'id': employee.id,
             'full_name': employee.get_full_name(),
             'entry_time': entry.time.strftime("%H:%M:%S") if entry else "-",
-            'exit_time': exit.time.strftime("%H:%M:%S") if exit else "-",
+            'exit_time': exit_.time.strftime("%H:%M:%S") if exit_ else "-",
             'punctuality': calculate_punctuality(entry, schedule),
-            'has_both_entries': entry and exit is not None
+            'has_both_entries': entry and exit_ is not None
         })
     
-    return Response({'date': target_date, 'employees': report_data})
+    return Response({'date': target_date.strftime("%Y-%m-%d"), 'employees': report_data})
 
 def calculate_punctuality(entry, schedule):
     if not entry or not schedule:
