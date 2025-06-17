@@ -6,6 +6,7 @@ from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from .models import Schedule, Attendance
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
