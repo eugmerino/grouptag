@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from .models import Schedule, Attendance
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def register_attendance(request):
@@ -83,3 +84,55 @@ def register_attendance(request):
             {"error": "No se encontró empleado con este DUI"},
             status=status.HTTP_404_NOT_FOUND
         )
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def employee_attendance_report(request):
+    company = request.user.company  # Asume que el usuario tiene relación con Company
+    target_date = request.query_params.get('date', timezone.now().date())
+    
+    employees = User.objects.filter(
+        company=company,
+        is_active=True
+    ).select_related('company')
+    
+    report_data = []
+    for employee in employees:
+        attendances = Attendance.objects.filter(
+            user=employee,
+            date=target_date
+        ).order_by('time')
+        
+        entry = attendances.filter(type='check_in').first()
+        exit = attendances.filter(type='check_out').first()
+        
+        schedule = Schedule.objects.filter(
+            user=employee,
+            day_of_week=target_date.weekday()
+        ).first()
+        
+        report_data.append({
+            'id': employee.id,
+            'full_name': employee.get_full_name(),
+            'entry_time': entry.time.strftime("%H:%M:%S") if entry else "-",
+            'exit_time': exit.time.strftime("%H:%M:%S") if exit else "-",
+            'punctuality': calculate_punctuality(entry, schedule),
+            'has_both_entries': entry and exit is not None
+        })
+    
+    return Response({'date': target_date, 'employees': report_data})
+
+def calculate_punctuality(entry, schedule):
+    if not entry or not schedule:
+        return "Sin horario"
+    
+    entry_time = entry.time
+    scheduled_time = schedule.start_time
+    
+    if entry_time <= scheduled_time:
+        return "A tiempo"
+    else:
+        delay = entry_time - scheduled_time
+        return f"Tardanza: {delay.seconds // 60} min"
