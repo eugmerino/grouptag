@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+from django.utils.timezone import localtime
 from datetime import datetime, date, time
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -30,7 +31,7 @@ def register_attendance(request):
             )
         
         # 3. Obtener día actual (0=Lunes, 6=Domingo)
-        now = timezone.now()
+        now = localtime.now()
         day_of_week = now.weekday()  # Devuelve 0 para Lunes, 1 para Martes, etc.
         
         # 4. Verificar si tiene horario para hoy
