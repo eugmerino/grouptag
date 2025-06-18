@@ -31,7 +31,7 @@ def register_attendance(request):
             )
         
         # 3. Obtener día actual (0=Lunes, 6=Domingo)
-        now = localtime.now()
+        now = localtime()
         day_of_week = now.weekday()  # Devuelve 0 para Lunes, 1 para Martes, etc.
         
         # 4. Verificar si tiene horario para hoy
