@@ -96,8 +96,10 @@ def register_attendance(request):
 
 
 def calculate_punctuality(entry, schedule):
-    if not entry or not schedule or not hasattr(schedule, 'start_time'):
+    if not schedule or not hasattr(schedule, 'start_time'):
         return "Sin horario"
+    if not entry:
+        return "Sin marcaje"
     
     # Convertimos los time a datetime para poder restarlos
     today = date.today()
@@ -109,7 +111,7 @@ def calculate_punctuality(entry, schedule):
     else:
         delay = entry_datetime - scheduled_datetime
         delay_minutes = delay.total_seconds() // 60
-        return f"Tardanza: {int(delay_minutes)} min"
+        return f"Tarde: {int(delay_minutes)} min"
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
