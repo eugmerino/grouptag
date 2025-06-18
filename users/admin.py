@@ -4,7 +4,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'first_name', 'last_name', 'company', 'phone', 'dui', 'is_active', 'is_admin', 'qr_code_display')
+    list_display = ('email', 'first_name', 'last_name', 'company', 'position', 'phone', 'dui', 'is_active', 'is_admin', 'qr_code_display')
     list_filter = ('company', 'is_active', 'is_admin')
     search_fields = ('email', 'first_name', 'last_name', 'dui', 'phone')
     ordering = ('email',)
@@ -12,7 +12,7 @@ class UserAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Información Personal", {
-            'fields': ('email', 'password', 'first_name', 'last_name', 'phone', 'dui', 'company')
+            'fields': ('email', 'password', 'first_name', 'last_name', 'phone', 'dui', 'company', 'position')
         }),
         ("Permisos", {
             'fields': ('is_active', 'is_admin', 'is_staff', 'is_superuser')
