@@ -1,0 +1,60 @@
+{% extends 'baseGT.html' %}
+
+{% block title %}GroupTag - Horarios{% endblock title %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
+        <!-- Formulario -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-body">
+                <h3 class="text-center mb-4">Agregar nuevo horario</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        {% for field in form %}
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-accent w-100">Agregar horario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Horarios organizados por usuario -->
+        {% for usuario in usuarios %}
+        <div class="mb-4">
+            <h5 class="text-primary">{{ usuario.first_name }} {{ usuario.last_name }}</h5>
+            <div class="row">
+                {% for horario in horarios %}
+                    {% if horario.user == usuario %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <p class="mb-1"><strong>Día:</strong> {{ horario.get_day_of_week_display }}</p>
+                                <p class="mb-1"><strong>Hora:</strong> {{ horario.start_time }} - {{ horario.end_time }}</p>
+                                <!-- Botón Modificar -->
+                                <div class="card-footer bg-transparent border-0 text-end mt-auto">
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Modificar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
