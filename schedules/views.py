@@ -227,3 +227,23 @@ def get_single_user_report(request):
         'date': target_date.strftime("%Y-%m-%d"),
         'employees': [report_data]  # Mantenemos la misma estructura pero con un solo usuario
     })
+
+
+
+# schedules/views.py
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def weekly_schedule(request):
+    schedules = Schedule.objects.filter(user=request.user).order_by('day_of_week')
+    
+    response_data = []
+    for day in range(7):  # 0=Lunes, 6=Domingo
+        schedule = next((s for s in schedules if s.day_of_week == day), None)
+        response_data.append({
+            'day': day,
+            'day_name': Schedule.DAYS_OF_WEEK[day][1],
+            'start_time': schedule.start_time.strftime('%H:%M') if schedule else None,
+            'end_time': schedule.end_time.strftime('%H:%M') if schedule else None
+        })
+    
+    return Response(response_data)
