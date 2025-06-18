@@ -94,6 +94,11 @@ def register_attendance(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def employee_attendance_report(request):
+    # Si el usuario no es admin, solo mostramos su información
+    if not request.user.is_admin:
+        return get_single_user_report(request)
+    
+    # El resto del código sigue igual para usuarios admin
     company = request.user.company
     
     # Manejo seguro de la fecha
@@ -151,18 +156,51 @@ def employee_attendance_report(request):
         'employees': report_data
     })
 
-def calculate_punctuality(entry, schedule):
-    if not entry or not schedule or not hasattr(schedule, 'start_time'):
-        return "Sin horario"
-    
-    # Convertimos los time a datetime para poder restarlos
-    today = date.today()
-    entry_datetime = datetime.combine(today, entry.time)
-    scheduled_datetime = datetime.combine(today, schedule.start_time)
-    
-    if entry_datetime <= scheduled_datetime:
-        return "A tiempo"
+def get_single_user_report(request):
+    # Manejo seguro de la fecha
+    date_str = request.query_params.get('date')
+    if date_str:
+        try:
+            target_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            return Response(
+                {"error": "Formato de fecha inválido. Use YYYY-MM-DD."},
+                status=400
+            )
     else:
-        delay = entry_datetime - scheduled_datetime
-        delay_minutes = delay.total_seconds() // 60
-        return f"Tardanza: {int(delay_minutes)} min"
+        target_date = timezone.now().date()
+    
+    # Obtenemos solo el usuario actual
+    employee = request.user
+    
+    # Obtenemos las asistencias del usuario para la fecha
+    daily_attendances = Attendance.objects.filter(
+        user=employee,
+        date=target_date
+    ).order_by('time')
+    
+    entry = next((a for a in daily_attendances if a.type == 'check_in'), None)
+    exit_ = next((a for a in daily_attendances if a.type == 'check_out'), None)
+    
+    # Buscamos el horario para el día de la semana
+    try:
+        schedule = Schedule.objects.get(
+            user=employee,
+            day_of_week=target_date.weekday()
+        )
+    except Schedule.DoesNotExist:
+        schedule = None
+    
+    report_data = {
+        'id': employee.id,
+        'full_name': employee.get_full_name(),
+        'entry_time': entry.time.strftime("%H:%M:%S") if entry else "-",
+        'exit_time': exit_.time.strftime("%H:%M:%S") if exit_ else "-",
+        'punctuality': calculate_punctuality(entry, schedule),
+        'has_both_entries': entry and exit_ is not None
+    }
+    
+    return Response({
+        'date': target_date.strftime("%Y-%m-%d"),
+        'employees': [report_data]  # Mantenemos la misma estructura pero con un solo usuario
+    })
