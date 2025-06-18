@@ -10,6 +10,8 @@ from .models import Schedule, Attendance
 from django.db.models import Prefetch
 
 
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def register_attendance(request):
@@ -90,6 +92,24 @@ def register_attendance(request):
 
 
 
+
+
+
+def calculate_punctuality(entry, schedule):
+    if not entry or not schedule or not hasattr(schedule, 'start_time'):
+        return "Sin horario"
+    
+    # Convertimos los time a datetime para poder restarlos
+    today = date.today()
+    entry_datetime = datetime.combine(today, entry.time)
+    scheduled_datetime = datetime.combine(today, schedule.start_time)
+    
+    if entry_datetime <= scheduled_datetime:
+        return "A tiempo"
+    else:
+        delay = entry_datetime - scheduled_datetime
+        delay_minutes = delay.total_seconds() // 60
+        return f"Tardanza: {int(delay_minutes)} min"
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
