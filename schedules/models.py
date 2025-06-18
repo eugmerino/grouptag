@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from django.utils import timezone
+from django.utils.timezone import localtime
 import datetime
 
 class Schedule(models.Model):
@@ -48,7 +49,7 @@ class Attendance(models.Model):
     
     def save(self, *args, **kwargs):
         # Obtener la fecha y hora actual
-        now = timezone.now()
+        now = localtime()
         self.date = now.date()
         
         # Obtener el día de la semana (0=Lunes, 6=Domingo)
