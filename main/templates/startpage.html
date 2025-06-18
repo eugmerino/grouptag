@@ -1,81 +1,183 @@
-<!DOCTYPE html>
+{% extends "baseNM.html" %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusMeet</title>
-    <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="icon" href="{% static "img/Logo.png" %}" type="image/x-icon">
+{% block title %}NexusMeet - Inicio{% endblock title %}
 
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">NexusMeet</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Login</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+{% block content %}
+<!-- Hero Section -->
+<section class="hero text-white text-center py-5">
+    <div class="container">
+        <img src="{% static 'img/logo.png' %}" alt="NexusMeet Logo" class="img-fluid" style="max-height: 150px;">
+        <h2 class="display-4">Bienvenido a NexusMeet</h2>
+        <p class="lead">Soluciones para tu PYME</p>
+        <a href="#comenzamos" class="btn btn-accent">Comencemos</a>
+    </div>
+</section>
 
-    <main>
-        <section class="hero text-white text-center py-5">
-            <div class="container">
-                <h2 class="display-4">Bienvenido a NexusMeet</h2>
-                <p class="lead">Tu plataforma de confianza para tu PYME</p>
-                <a href="#" class="btn btn-accent btn-lg">Comencemos</a>
-            </div>
-        </section>
+<!-- Features Section -->
+<section class="features py-5" id="comenzamos">
+    <div class="container">
+        <h3 class="text-center mb-4">¿Quiénes somos?</h3>
+        <p class="text-center lead mb-4">
+            En NexusMeet, ofrecemos soluciones personalizadas para pequeñas y medianas empresas. Mejora la gestión y eficiencia de tu negocio con tecnología de vanguardia.
+        </p>
 
-        <section class="features py-5">
-            <div class="container">
-                <h3 class="text-center mb-4">Why Choose GroupTag?</h3>
-                <div class="row text-center">
-                    <div class="col-md-4">
-                        <h4>Easy Schedule Creation</h4>
-                        <p>Manage and create schedules with ease.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4>Real-time Updates</h4>
-                        <p>Keep your team updated with real-time notifications.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4>Streamlined Communication</h4>
-                        <p>Enhance team communication for smoother operations.</p>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">Gestión Simplificada</h4>
+                        <p class="card-text">Facilita la gestión de tu empresa, concentrándote en lo que más importa.</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">Soporte Personalizado</h4>
+                        <p class="card-text">Te acompañamos en cada paso, adaptando las herramientas a tus necesidades.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">Soluciones Innovadoras</h4>
+                        <p class="card-text">Apostamos por la innovación para mejorar tu gestión empresarial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="#group-tag" class="btn btn-accent">Nuestros productos</a>
+        </div>
+    </div>
+</section>
+<!-- Product Section: Group Tag -->
+<section class="product py-5 bg-white" id="group-tag">
+    <div class="container text-center">
+        <h3 class="mb-4">Conoce nuestro primer producto: Group Tag</h3>
+        <p class="lead mb-4">Group Tag es una aplicación para mejorar la gestión de equipos, optimizando el tiempo y facilitando el registro de asistencia.</p>
 
-    <footer class="text-white text-center py-3">
-        <p>&copy; 2025 GroupTag. All rights reserved.</p>
-    </footer>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <img src="{% static 'img/logo-group-tag-logo.png' %}" class="card-img-top" alt="Group Tag App">
+                    <div class="card-body">
+                        <h4 class="card-title">¿Qué puedes hacer con Group Tag?</h4>
+                        <ul>
+                            <li>Registrar asistencia de manera rápida</li>
+                            <li>Generar reportes de asistencia</li>
+                            <li>Integrar con otras herramientas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-</body>
-</html>
+        <div class="mt-4">
+            <a href="{% url 'logingrouptag' %}" class="btn btn-accent">Prueba Group Tag ahora</a>
+             <a href="#precios" class="btn btn-accent">Nuestros planes</a>
+        </div>
+
+    </div>
+</section>
+<!-- Precios Section -->
+<section class="pricing py-5 bg-white" id="precios">
+    <div class="container text-center">
+        <h3 class="mb-4">Nuestros Planes y Precios</h3>
+        <p class="lead mb-4">
+            Elige el plan que mejor se adapte a las necesidades de tu negocio. En NexusMeet ofrecemos opciones escalables, desde el uso ocasional hasta la gestión completa para empresas con múltiples equipos.
+        </p>
+
+        <div class="row">
+            <!-- Plan Free -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Free</h4>
+                        <p class="text-muted">(Gratuito)</p>
+                        <p class="h5 mb-3">$0.00 / mes</p>
+                        <p><strong>Ideal para:</strong> Usuarios nuevos o con uso ocasional</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Acceso limitado</li>
+                            <li>✔ Funciones básicas</li>
+                            <li>✔ Sin soporte prioritario</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Básico -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Básico</h4>
+                        <p class="h5 mb-3">$4.99 / mes</p>
+                        <p><strong>Ideal para:</strong> PYMEs o emprendedores que inician</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Funciones esenciales</li>
+                            <li>✔ Soporte básico</li>
+                            <li>✔ Análisis de actividad limitado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Pro -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Pro</h4>
+                        <p class="h5 mb-3">$9.99 / mes</p>
+                        <p><strong>Ideal para:</strong> Negocios en crecimiento</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Acceso completo a funcionalidades</li>
+                            <li>✔ Reportes avanzados</li>
+                            <li>✔ Soporte rápido</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Corporativo -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Corporativo</h4>
+                        <p class="h5 mb-3">$19.99 / mes</p>
+                        <p><strong>Ideal para:</strong> Empresas con equipos o múltiples sedes</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Todo lo anterior</li>
+                            <li>✔ Gestión multiusuario</li>
+                            <li>✔ Soporte dedicado</li>
+                            <li>✔ Campañas personalizadas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url "subscriptionpage" %}" class="btn btn-accent">Ver más detalles</a>
+            <a href="https://forms.gle/ohgMztvvhUuv7tDd8" class="btn btn-accent">Danos tu opinion</a>
+        </div>
+    </div>
+</section>
+<!-- Redes Sociales Section -->
+<!-- Hay que cambiar los enlaces de las redes sociales -->
+<section class="contact py-5 bg-light" id="contacto">
+    <div class="container text-center">
+        <h3 class="mb-4">Síguenos en nuestras redes sociales</h3>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a href="https://www.facebook.com/share/16VWbueKye/" target="_blank" class="btn btn-primary btn-lg mx-2">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "baseNM.html" %}
+{% load static %}
+{% block title %}Planes de Suscripción - NexusMeet{% endblock title %}
+
+{% block content %}
+<!-- Encabezado -->
+<section class="hero text-white text-center py-5">
+    <div class="container">
+        <h2 class="display-4">Planes de Suscripción</h2>
+        <p class="lead">Accede a herramientas de gestión adaptadas a tus necesidades.</p>
+    </div>
+</section>
+
+<!-- Introducción -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h3 class="text-center mb-4">Un modelo escalable, diseñado para ti</h3>
+        <p class="lead text-center">
+            Nuestro modelo de suscripciones ofrece opciones accesibles y funcionales para cada etapa de crecimiento de tu empresa. Cada plan ha sido diseñado considerando análisis financieros, retroalimentación de usuarios y comparación con plataformas líderes en la región.
+        </p>
+    </div>
+</section>
+
+<!-- Planes -->
+<section class="pricing py-5 bg-light">
+    <div class="container text-center">
+        <h3 class="mb-4">Estructura de Planes</h3>
+        <div class="row">
+            <!-- Plan Free -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Free</h4>
+                        <p class="text-muted">(Gratuito)</p>
+                        <p class="h5 mb-3">$0.00 / mes</p>
+                        <p><strong>Para:</strong> Usuarios nuevos o uso ocasional</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Funciones básicas</li>
+                            <li>✔ Acceso limitado</li>
+                            <li>✔ Sin soporte prioritario</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Básico -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Básico</h4>
+                        <p class="h5 mb-3">$4.99 / mes</p>
+                        <p><strong>Para:</strong> PYMEs o emprendedores</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Funciones esenciales</li>
+                            <li>✔ Soporte básico</li>
+                            <li>✔ Acceso limitado a reportes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Pro -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Pro</h4>
+                        <p class="h5 mb-3">$9.99 / mes</p>
+                        <p><strong>Para:</strong> Empresas en expansión</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Funcionalidad completa</li>
+                            <li>✔ Reportes avanzados</li>
+                            <li>✔ Soporte rápido</li>
+                            <li>✔ Promoción: 50% de descuento por 2 meses</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Corporativo -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Corporativo</h4>
+                        <p class="h5 mb-3">$19.99 / mes</p>
+                        <p><strong>Para:</strong> Empresas con equipos o múltiples sedes</p>
+                        <ul class="list-unstyled">
+                            <li>✔ Todo lo anterior</li>
+                            <li>✔ Gestión multiusuario</li>
+                            <li>✔ Soporte dedicado</li>
+                            <li>✔ Campañas personalizadas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-4">También ofrecemos opción anual con descuento: paga 10 meses y obtén 12.</p>
+    </div>
+</section>
+
+<!-- Resultados y Ajustes -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h3 class="text-center mb-4">Resultados y Ajustes Estratégicos</h3>
+        <p>
+            Gracias al seguimiento trimestral de indicadores, identificamos que el plan Pro representa el mayor nivel de migración, mientras que el plan Corporativo destaca por su estabilidad y alta satisfacción. Ajustamos beneficios y promociones en cada nivel para fomentar una progresión clara y aumentar la retención. Las promociones han incrementado en un 22% las conversiones desde el plan gratuito.
+        </p>
+    </div>
+</section>
+
+<!-- Encuesta de Satisfacción -->
+<section class="bg-light py-5">
+    <div class="container text-center">
+        <h3 class="mb-4">Tu opinión es importante</h3>
+        <p class="lead">Ayúdanos a seguir mejorando nuestros planes respondiendo una breve encuesta.</p>
+        <a href="https://forms.gle/ohgMztvvhUuv7tDd8" target="_blank" class="btn btn-accent">Ir a la encuesta</a>
+    </div>
+</section>
+
+<!-- Contacto -->
+<section class="contact py-5 hero text-white" id="contacto">
+    <div class="container text-center">
+        <h3 class="mb-4">¿Tienes dudas o quieres suscribirte?</h3>
+        <p class="lead">Estamos aquí para ayudarte. Escríbenos o llámanos.</p>
+        <p><strong>Correo:</strong> <a href="mailto:clientes@nexusmeet.com" class="text-accent">clientes@nexusmeet.com</a></p>
+        <p><strong>Teléfono:</strong> <a href="tel:+50364557416" class="text-accent">6455-7416</a></p>
+    </div>
+</section>
+{% endblock %}

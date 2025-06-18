@@ -1,47 +1,144 @@
 /* General Styles */
 body {
-    background-color: #ffffff; /* Fondo blanco */
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    color: #333;
 }
 
-/* Navbar */
+/* Navbar (por si se ocupa en baseNM.html) */
 .navbar-dark {
-    background-color: #102737ff; /* Barra superior oscura */
+    background-color: #102737ff;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-    color: white; /* Enlace blanco */
-}
-
+.navbar-dark .navbar-nav .nav-link,
 .navbar-dark .navbar-brand {
-    color: white; /* Marca blanca */
+    color: white;
 }
 
 .navbar-dark .navbar-nav .nav-link:hover {
-    color: #2aa23eff; /* Color acento para el hover */
+    color: #2aa23eff;
 }
 
 /* Hero Section */
 .hero {
-    background-color: #102737ff; /* Fondo oscuro en el hero */
+    background-color: #102737ff;
+    padding: 80px 0;
 }
 
-/* Accent Button */
+.hero h2 {
+    font-size: 2.5rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+/* Botón de acento */
 .btn-accent {
-    background-color: #f4f4f4; /* Botón claro */
-    color: #102737ff; /* Texto oscuro */
+    background-color: #2aa23eff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
 }
 
 .btn-accent:hover {
-    background-color: #d1d1d1; /* Color más claro al pasar el ratón */
+    background-color: #1b7a16;
 }
 
 /* Features Section */
 .features h3 {
-    color: #102737ff; /* Color del título */
+    color: #102737ff;
 }
 
-/* Footer */
-footer {
-    background-color: #102737ff; /* Footer oscuro */
-    color: white; /* Texto blanco en el footer */
+.features .card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+/* Product Section */
+.product .card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Redes Sociales */
+.contact .btn {
+    margin: 5px;
+}
+
+/* Centrado general */
+.text-center {
+    text-align: center;
+}
+
+footer {
+    background-color: #102737ff;
+    color: white;
+    padding: 20px 0;
+}
+
+
+
+/* Login Styles */
+.login {
+    background-color: #f7f7f7; /* Fondo gris claro */
+    height: 100vh; /* Altura de pantalla completa */
+}
+
+.card {
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    max-width: 400px; /* Limitar el ancho máximo del formulario */
+    margin: 0 auto; /* Centrar el formulario */
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.form-label {
+    font-weight: bold; /* Etiquetas en negrita */
+}
+
+.form-control {
+    border-radius: 5px; /* Bordes redondeados en los inputs */
+    padding: 12px 15px; /* Espaciado en inputs */
+    font-size: 1rem; /* Tamaño adecuado para el texto */
+    width: 100%; /* Asegurar que los campos de entrada ocupen el 100% del ancho */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    margin-bottom: 20px; /* Espaciado entre los campos */
+}
+
+.btn-accent {
+    background-color: #2aa23eff; /* Color de fondo del botón */
+    color: white; /* Color de texto blanco */
+    border: none;
+    padding: 10px 30px; /* Tamaño adecuado para el botón */
+    font-size: 1rem; /* Tamaño de texto más pequeño */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+.btn-accent:hover {
+    background-color: #1b7a16; /* Color al pasar el ratón */
+}
+
+.text-muted {
+    color: #666; /* Color gris para los enlaces */
+}
+
+.text-center {
+    text-align: center;
+}
+
+.w-100 {
+    width: 100%;
+}
+

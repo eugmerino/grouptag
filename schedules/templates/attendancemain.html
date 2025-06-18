@@ -1,0 +1,70 @@
+{% extends "baseGT.html" %}
+
+{% block title %}GroupTag - Asistencia{% endblock title %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h3 class="text-center mb-5">Registro de Asistencias</h3>
+
+        {% if asistencias %}
+        <div class="row">
+            <!-- Entradas -->
+            <div class="col-md-6">
+                <h4 class="text-center mb-4 text-success">Entradas</h4>
+                {% for asistencia in asistencias %}
+                    {% if asistencia.type == 'check_in' %}
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ asistencia.user.first_name }} {{ asistencia.user.last_name }}</h5>
+                            <p><strong>Fecha:</strong> {{ asistencia.date }}</p>
+                            <p>
+                                <strong>Hora de entrada:</strong> {{ asistencia.time }}
+                                {% if asistencia.schedule and asistencia.time > asistencia.schedule.start_time %}
+                                    <span class="badge bg-danger ms-2">Llegada tardía</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Horario:</strong> 
+                                {% if asistencia.schedule %}
+                                    {{ asistencia.schedule.get_day_of_week_display }}:
+                                    {{ asistencia.schedule.start_time }} - {{ asistencia.schedule.end_time }}
+                                {% else %}
+                                    <span class="text-muted">No asignado</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Salidas -->
+            <div class="col-md-6">
+                <h4 class="text-center mb-4 text-secondary">Salidas</h4>
+                {% for asistencia in asistencias %}
+                    {% if asistencia.type == 'check_out' %}
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ asistencia.user.first_name }} {{ asistencia.user.last_name }}</h5>
+                            <p><strong>Fecha:</strong> {{ asistencia.date }}</p>
+                            <p><strong>Hora de salida:</strong> {{ asistencia.time }}</p>
+                            <p><strong>Horario:</strong> 
+                                {% if asistencia.schedule %}
+                                    {{ asistencia.schedule.get_day_of_week_display }}:
+                                    {{ asistencia.schedule.start_time }} - {{ asistencia.schedule.end_time }}
+                                {% else %}
+                                    <span class="text-muted">No asignado</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+            <div class="alert alert-info text-center">No hay registros de asistencia disponibles.</div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
