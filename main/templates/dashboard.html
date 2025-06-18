@@ -1,0 +1,72 @@
+{% extends "baseGT.html" %}
+{% load static %}
+
+{% block title %}GroupTag - Dashboard{% endblock title %}
+
+{% block content %}
+
+<!-- Bienvenida con Empresa destacada -->
+<section class="py-5 bg-white text-center">
+    <div class="container">
+        <img src="{% static 'img/logo-group-tag-logo.png' %}" alt="GroupTag Logo" class="img-fluid mb-4" style="max-height: 100px;">
+        <h2 class="mb-3">Bienvenido, <strong>{{ usuario.first_name }}</strong> 👋</h2>
+        <p class="lead mb-1">Este es tu panel de control personal en <strong>GroupTag</strong>.</p>
+        <h4 class="mt-3">Empresa: <strong>{{ usuario.company.name }}</strong></h4>
+    </div>
+</section>
+
+<!-- Empleados -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <h4 class="mb-3">Empleados</h4>
+        {% if usuarios %}
+        <div class="row">
+            {% for empleado in usuarios %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">{{ empleado.first_name }} {{ empleado.last_name }}</h5>
+                        <p class="mb-1"><strong>Puesto:</strong> {{ empleado.position|default:"No especificado" }}</p>
+                        <p class="mb-1"><strong>Correo:</strong> {{ empleado.email }}</p>
+                        <p class="mb-1"><strong>Teléfono:</strong> {{ empleado.phone|default:"No registrado" }}</p>
+                        <p class="mb-1"><strong>DUI:</strong> {{ empleado.dui|default:"No registrado" }}</p>
+                        <p class="mb-1">
+                            <strong>Estado:</strong>
+                            {% if empleado.is_active %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inactivo</span>
+                            {% endif %}
+                        </p>
+                        <p class="mb-1">
+                            <strong>Rol:</strong>
+                            {% if empleado.is_admin %}
+                                <span class="badge bg-warning text-dark">Administrador</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Usuario</span>
+                            {% endif %}
+                        </p>
+                        {% if empleado.qr_code %}
+                        <p class="mt-3"><strong>Código QR:</strong></p>
+                        <img src="{{ empleado.qr_code.url }}" alt="QR de {{ empleado.first_name }}" class="img-fluid" style="max-height: 120px;">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            No hay empleados registrados en esta empresa.
+        </div>
+        {% endif %}
+
+        <!-- Botón de asistencias -->
+        <div class="text-center mt-4">
+            <a href="{% url "asistencias" %}" class="btn btn-accent">Ver asistencias</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
